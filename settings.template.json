@@ -1,0 +1,6 @@
+{
+  "SPOTIFY_CLIENT_ID": "your-spotify-client-id",
+  "SPOTIFY_CLIENT_SECRET": "your-spotify-client-secret",
+  "REDIRECT_URI": "http://127.0.0.1:3000",
+  "SCOPES": "user-read-recently-played user-top-read user-read-playback-state"
+}

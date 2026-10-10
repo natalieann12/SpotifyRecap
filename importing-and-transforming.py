@@ -4,23 +4,18 @@ import spotipy
 from spotipy.oauth2 import SpotifyOAuth
 import ibis
 
+# Load settings from settings.json (gitignored locally; absent in CI)
+settings = {}
+if os.path.exists('settings.json'):
+    with open('settings.json', 'r') as f:
+        settings = json.load(f)
+
 sp = spotipy.Spotify(auth_manager=SpotifyOAuth(
-    client_id='e1a7187555744a2c9e6bbb0924487004',
-    client_secret='REDACTED_ROTATED_SECRET',
-    redirect_uri='http://127.0.0.1:3000',
-    scope='user-read-recently-played user-top-read user-read-playback-state'  # Adjust scopes based on what data you need
+    client_id=settings.get('SPOTIFY_CLIENT_ID'),
+    client_secret=os.environ.get('SPOTIFY_CLIENT_SECRET', settings.get('SPOTIFY_CLIENT_SECRET')),
+    redirect_uri=settings.get('REDIRECT_URI'),
+    scope=settings.get('SCOPES')
 ))
-
-# # Load settings from settings.json
-# with open('settings.json', 'r') as f:
-#     settings = json.load(f)
-
-# sp = spotipy.Spotify(auth_manager=SpotifyOAuth(
-#     client_id=settings['SPOTIFY_CLIENT_ID'],
-#     client_secret=os.environ.get('SPOTIFY_CLIENT_SECRET'),
-#     redirect_uri=settings['REDIRECT_URI'],
-#     scope='user-read-recently-played'  # Adjust scopes based on what data you need
-# ))
 
 # Now you can make API calls, for example:
 top_tracks = sp.current_user_top_tracks(limit=20)
