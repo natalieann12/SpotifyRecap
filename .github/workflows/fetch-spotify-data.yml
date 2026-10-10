@@ -1,0 +1,34 @@
+name: Fetch Spotify Data
+
+# on:
+#   schedule:
+#     - cron: '0 0 * * 0'  # Runs at midnight every Sunday
+#   workflow_dispatch:  # Allows manual triggering
+
+jobs:
+  fetch-data:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      
+      - name: Set up Python with uv
+        uses: astral-sh/setup-uv@v3
+        with:
+          version: "latest"
+      
+      - name: Install dependencies
+        run: uv sync
+      
+      - name: Run script
+        env:
+          SPOTIFY_CLIENT_SECRET: ${{ secrets.SPOTIFY_CLIENT_SECRET }}
+        run: uv run python importing-and-transforming.py
+      
+      # - name: Commit and push if changes
+      #   run: |
+      #     git config --local user.email "action@github.com"
+      #     git config --local user.name "GitHub Action"
+      #     git add -A
+      #     git diff --quiet && git diff --staged --quiet || (git commit -m "Update Spotify data" && git push)

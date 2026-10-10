@@ -1,0 +1,5 @@
+// Spotify app settings
+
+SPOTIFY_CLIENT_ID = "e1a7187555744a2c9e6bbb0924487004"
+REDIRECT_URI = "http://127.0.0.1:3000"
+// SCOPES = "user-read-recently-played user-top-read"
